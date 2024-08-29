@@ -11,9 +11,13 @@ from sklearn.metrics.pairwise import cosine_similarity
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt_identity
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "https://tranquil-gaufre-c4874c.netlify.app"}})
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SECRET_KEY'] = 'your_secret_key_here'
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = True  # Ensures the cookie is only sent over HTTPS
+
 jwt = JWTManager(app)
 db = SQLAlchemy(app)
 
